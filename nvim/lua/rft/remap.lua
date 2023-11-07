@@ -55,16 +55,6 @@ vim.api.nvim_set_keymap('i', '<C-Y>', '<C-R>', { noremap = true, silent = true }
 vim.api.nvim_set_keymap('n', '<C-Y>', '<C-R>', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', '<C-Y>', '<C-R>', { noremap = true, silent = true })
 
---vim.wo.fillchars = "eob: " Copy Paste
-vim.api.nvim_set_keymap('i', '<C-c>', '<Esc>"+y<CR>i', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('i', '<C-v>', '<Esc>"+p<CR>i', { noremap = true, silent = true })
-
-vim.api.nvim_set_keymap('n', '<C-c>', '"+y', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('n', '<C-v>', '"+p', { noremap = true, silent = true })
-
-vim.api.nvim_set_keymap('v', '<C-c>', '"+y', { noremap = true, silent = true })
-vim.api.nvim_set_keymap('v', '<C-v>', '"+p', { noremap = true, silent = true })
-
 -- Clipboard
 vim.o.clipboard = "unnamedplus"
 
@@ -73,14 +63,19 @@ vim.o.fillchars="eob: "
 
 -- Delete
 vim.api.nvim_set_keymap('n', 'd', '"_d', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('n', 'D', '"_D', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('n', 'x', '"_x', { noremap = true, silent = true })
 
 vim.api.nvim_set_keymap('v', 'd', '"_d', { noremap = true, silent = true })
+vim.api.nvim_set_keymap('v', 'D', '"_D', { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', 'x', '"_x', { noremap = true, silent = true })
 
 -- When pressed "yy" copy whole Line
 vim.api.nvim_set_keymap('n', 'yy', [[:let @+ = getline('.')<CR>]], { noremap = true, silent = true })
 vim.api.nvim_set_keymap('v', 'yy', [[:let @+ = getline('.')<CR>]], { noremap = true, silent = true })
+
+-- Save with sudo
+-- vim.api.nvim_set_keymap('c', 'w!!', [[execute 'silent! write !sudo tee % >/dev/null' <bar> edit!]], { noremap = true, silent = true })
 
 -- Cursor Line
 vim.cmd("set cursorline")
