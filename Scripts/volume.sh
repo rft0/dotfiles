@@ -20,3 +20,4 @@ fi
 pactl set-sink-volume @DEFAULT_SINK@ "$vol"%
 
 pactl get-sink-volume @DEFAULT_SINK@ | awk -F' ' '{print $5}' | awk -F'%' '{print $1}'
+dunstify -a "volchange" -u low -r 9991 -h int:value:"$vol" -i "volume" "Volume: $vol%" -t 1000
