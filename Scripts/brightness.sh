@@ -19,3 +19,6 @@ if [[ "$LIMIT" == true ]] ; then
 fi
 
 xrandr --output "$OUTPUT" --brightness "$brightness"
+
+bripercent=$(bc -l <<< "$brightness * 100")
+dunstify -a "changebrightness" -u low -r 9992 -h int:value:"$bripercent" -i "brightness" "Brightness: $bripercent%" -t 1000
