@@ -38,7 +38,7 @@ exec --no-startup-id nm-applet
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id ~/Scripts/volume.sh inc 5 && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id ~/Scripts/volume.sh dec 5 && $refresh_i3status
-bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
+bindsym XF86AudioMute exec --no-startup-id ~/Scripts/volmute.sh && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # Brightness
@@ -74,8 +74,8 @@ bindsym $mod+scedilla focus right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Left focus left
-bindsym $mod+Down focus down
-bindsym $mod+Up focus up
+bindsym $mod+Shift+Down focus down
+bindsym $mod+Shift+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
@@ -86,8 +86,8 @@ bindsym $mod+Shift+scedilla move right
 
 # alternatively, you can use the cursor keys:
 bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
-bindsym $mod+Shift+Up move up
+# bindsym $mod+Shift+Down move down
+# bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
 # split in horizontal orientation
@@ -198,7 +198,8 @@ smart_gaps on
 default_border pixel 2
 
 # Background
-exec --no-startup-id feh --bg-fill /home/rft/Pictures/bg6.png
+# exec_always --no-startup-id feh --bg-fill ~/Pictures/bg7.jpg
+exec --no-startup-id feh --bg-fill ~/Pictures/asiatic_tree.jpg
 
 # Picom
 exec --no-startup-id picom --daemon
@@ -210,6 +211,6 @@ bindsym Print exec --no-startup-id flameshot gui
 # finds out, if available)
 bar {
         position top
-        # status_command /home/rft/Scripts/status.sh
+        # status_command ~/Scripts/status.sh
         status_command i3status
 }
