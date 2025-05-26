@@ -1,7 +1,19 @@
 #!/bin/bash
 
-# Get current volume with pactl (Alternative = pactl get-sink-volume @DEFAULT_SINK@ | grep -Po "[0-9]{1,2}(?=%)")
-vol=$(pactl get-sink-volume @DEFAULT_SINK@ | awk -F' ' '{print $5}' | awk -F'%' '{print $1}')
+vol=$(amixer get Master | grep -oP '\d+(?=%)' | head -n 1)
+if [[ "$1" == "mute" ]]; then
+    amixer set Master toggle > /dev/null
+    mute_status=$(amixer get Master | grep -o "\[on\]\|\[off\]" | head -n 1)
+
+    if [[ "$mute_status" == "[off]" ]]; then
+        dunstify -a "volchange" -u low -r 9991 -h int:value:0 -i "volume" "Muted" -t 1000
+	exit 0
+    fi
+
+    dunstify -a "volchange" -u low -r 9991 -h int:value:"$vol" -i "volume" "Volume: $vol%" -t 1000
+    exit 0
+fi
+
 
 STEP=$(echo "$2" | bc -l)
 
@@ -10,14 +22,18 @@ STEP=$(echo "$2" | bc -l)
 
 LIMIT=true
 if [[ "$LIMIT" == true ]] ; then
-    # If vol is greater than 1.0 set it to 1.0
-    [[ $(echo "$vol > 100.0" | bc -l) -eq 1 ]] && vol=100.0
+    # If vol is greater than 100%, set it to 100%
+    [[ "$vol" -gt 100 ]] && vol=100
 
-    # if vol is lesser than 0.0 set it to 0.0
-    [[ $(echo "$vol < 0.0" | bc -l) -eq 1 ]] && vol=0.0
+    # If vol is less than 0%, set it to 0%
+    [[ "$vol" -lt 0 ]] && vol=0
 fi
 
-pactl set-sink-volume @DEFAULT_SINK@ "$vol"%
+# Set the volume using amixer (ALSA)
+amixer set Master "$vol%" > /dev/null
 
-pactl get-sink-volume @DEFAULT_SINK@ | awk -F' ' '{print $5}' | awk -F'%' '{print $1}'
+# Get the updated volume for display
+vol=$(amixer get Master | grep -oP '\d+(?=%)' | head -n 1)
+
+# Display the volume change with dunstify
 dunstify -a "volchange" -u low -r 9991 -h int:value:"$vol" -i "volume" "Volume: $vol%" -t 1000
