@@ -1,5 +1,5 @@
 #!/bin/bash
-
+dunstify "asd"
 OUTPUT="eDP-1"
 STEP=$(echo "$2 * 0.01" | bc -l)
 
@@ -21,4 +21,4 @@ fi
 xrandr --output "$OUTPUT" --brightness "$brightness"
 
 bripercent=$(bc -l <<< "$brightness * 100")
-dunstify -a "changebrightness" -u low -r 9992 -h int:value:"$bripercent" -i "brightness" "Brightness: $bripercent%" -t 1000
+dunstify -a "changebrightness" -u low -r 9992 -h int:value:"$bripercent" -i "brightness" "Brightness: $bripercent%" -t 100
